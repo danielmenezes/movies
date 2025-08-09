@@ -7,57 +7,24 @@ module.exports = {
       tableName: 'users',
       schema: 'dbo'
     }, {
-      firebase_uid: {
+      id: {
         allowNull: false,
-        autoIncrement: false,
+        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       email: {
         allowNull: false,
         type: Sequelize.STRING(100),
         unique: true
       },
-      first_name: {
+      password: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      name: {
         allowNull: false,
         type: Sequelize.STRING(100)
-      },
-      last_name: {
-        allowNull: false,
-        type: Sequelize.STRING(100)
-      },
-      cpf: {
-        allowNull: false,
-        type: Sequelize.STRING(11),
-        unique: true
-      },
-      rg: {
-        type: Sequelize.STRING(30),
-        allowNull: true
-      },
-      birth_date: {
-        allowNull: false,
-        type: Sequelize.DATEONLY
-      },
-      city: {
-        allowNull: true,
-        type: Sequelize.STRING(50)
-      },
-      uf: {
-        allowNull: true,
-        type: Sequelize.STRING(50)
-      },
-      address: {
-        allowNull: true,
-        type: Sequelize.STRING(250)
-      },
-      address_number: {
-        allowNull: true,
-        type: Sequelize.STRING(10)
-      },
-      phone: {
-        type: Sequelize.STRING(30),
-        allowNull: true,
       },
       profile_id: {
         type: Sequelize.INTEGER,

@@ -5,7 +5,6 @@ import { ProfileEntity } from '@user/entities/profile.entity';
 import { UsersController } from './user.controller';
 import { CreateUserUseCase } from './use-cases/create-user.use-case';
 import { UserRepository } from './user.repository';
-import { UserService } from './user.service';
 
 
 @Module({
@@ -19,10 +18,7 @@ import { UserService } from './user.service';
 
     // Repositories
     UserRepository,
-    
-    // Services
-    UserService,
   ],
-  exports: [UserService]
+  exports: [UserRepository]
 })
 export class UserModule {}

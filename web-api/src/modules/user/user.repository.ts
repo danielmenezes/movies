@@ -20,10 +20,4 @@ export class UserRepository {
     });
   }
 
-  async getByCpf(cpf: string): Promise<UserEntity | null> {
-    return await this.userEntity.findOne({
-      where: { cpf }
-    });
-  } 
-
 }

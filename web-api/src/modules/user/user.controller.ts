@@ -1,15 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
-import { UserService } from './user.service';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ValidationPipe } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserUseCase } from './use-cases/create-user.use-case';
 
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UserService) {}
+  constructor(private readonly createUserUseCase: CreateUserUseCase) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  create(@Body(new ValidationPipe({
+    whitelist: true,
+    transform: true,
+  })) 
+  createUserDto: CreateUserDto) {
+    return this.createUserUseCase.execute(createUserDto);
   }
 
 } 

@@ -8,7 +8,6 @@ module.exports = {
       schema: 'dbo'
     }, [
       { id: 1, name: 'Administrador', status: 1, created_at: new Date(), updated_at: new Date() },
-      { id: 2, name: 'Mentor', status: 1, created_at: new Date(), updated_at: new Date() },
       { id: 3, name: 'Usuário', status: 1, created_at: new Date(), updated_at: new Date() },
     ]);
   },

@@ -7,6 +7,7 @@ import {
   BelongsTo,
   PrimaryKey,
   AllowNull,
+  AutoIncrement,
 } from 'sequelize-typescript';
 import { ProfileEntity } from './profile.entity';
 
@@ -14,49 +15,20 @@ import { ProfileEntity } from './profile.entity';
 export class UserEntity extends Model<UserEntity> {
 
   @PrimaryKey
-  @Column({ field: 'firebase_uid', type: DataType.STRING, allowNull: false })
-  firebaseUid: string;
+  @AutoIncrement
+  @Column(DataType.INTEGER)
+  declare id: number;
 
   @Column({ type: DataType.STRING(100), allowNull: false, unique: true })
   email: string;
 
-  @Column({ field: 'first_name', type: DataType.STRING(100), allowNull: false })
-  firstName: string;
+  @Column({ type: DataType.STRING(), allowNull: false })
+  password: string;
 
-  @Column({ field: 'last_name', type: DataType.STRING(100), allowNull: false })
-  lastName: string;
+  @Column({ type: DataType.STRING(100), allowNull: false })
+  name: string;
 
-  @Column({ type: DataType.STRING(11), allowNull: false, unique: true })
-  cpf: string;
-
-  @AllowNull
-  @Column({ type: DataType.STRING(30) })
-  rg?: string;
-
-  @Column({ field: 'birth_date', type: DataType.DATEONLY, allowNull: false })
-  birthDate: Date;
-
-  @AllowNull
-  @Column({ type: DataType.STRING(50) })
-  city?: string;
-
-  @AllowNull
-  @Column({ type: DataType.STRING(50) })
-  uf?: string;
-
-  @AllowNull
-  @Column({ type: DataType.STRING(250) })
-  address?: string;
-
-  @AllowNull
-  @Column({ field: 'address_number', type: DataType.STRING(10) })
-  addressNumber?: string;
-
-  @AllowNull
-  @Column({ type: DataType.STRING(30) })
-  phone?: string;
-
-  @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: true })
+  @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 1 })
   status: number;
 
   @ForeignKey(() => ProfileEntity)
