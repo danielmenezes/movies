@@ -1,4 +1,4 @@
-import { createContext, useState, type ReactNode } from 'react';
+import { createContext, useContext, useState, type ReactNode } from 'react';
 import { Snackbar, Alert, type AlertColor } from '@mui/material';
 
 interface Toast {
@@ -55,4 +55,13 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
       ))}
     </ToastContext.Provider>
   );
+};
+
+
+export const useToast = (): ToastContextType => {
+  const context = useContext(ToastContext);
+  if (!context) {
+    throw new Error('useToast deve ser usado dentro de ToastProvider');
+  }
+  return context;
 };

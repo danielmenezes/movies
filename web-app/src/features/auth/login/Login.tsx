@@ -2,37 +2,31 @@ import backgroundLogin from '@/assets/background-login.jpg';
 import { Card, CardContent, Typography, Button, TextField, Avatar, Box, CircularProgress } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 import { useState } from 'react';
-import { useToast } from '../../../hooks/useToast';
-const apiUrl = import.meta.env.VITE_API_URL;
+import { useNavigate } from 'react-router-dom';
+import api from '@config/api';
+import { useToast } from '@/context/ToastProvider';
 
 const Login = () => {
+  const { toastError, toastSuccess } = useToast();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { toastError } = useToast();
 
   async function autenticar() {
     setLoading(true);
     try {
-      const res = await fetch(`${apiUrl}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const resp = await api.post('/auth/login', { email, password });
 
-      if (res.ok) {
-        const data = await res.json();
-        
-        console.log('Usuário logado:', data.user);
+      localStorage.setItem('access_token', resp.data.body.access_token);
+      localStorage.setItem('refresh_token', resp.data.body.refresh_token);
 
-      } else {
-        const err = await res.json();
-        toastError(err.message);
-      }
-    } catch (err) {
-        toastError('Ocorreu um arro ao fazer login');
+      toastSuccess('Login realizado com sucesso!');
+      navigate('/home');
+    } catch (err: any) {
+
+      toastError(err.response?.data?.message);
     } finally {
       setLoading(false);
     }

@@ -5,10 +5,13 @@ import { map } from 'rxjs/operators';
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    const response = context.switchToHttp().getResponse();
+    response.status(200);
+
     return next.handle().pipe(
       map(data => ({
         status: 'success',
-        data: data,
+        body: data,
       })),
     );
   }

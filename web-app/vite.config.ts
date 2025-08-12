@@ -13,10 +13,10 @@ const __dirname = path.dirname(__filename);
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-      // '@components': path.resolve(__dirname, './src/components'),
-    },
+    alias: [
+      { find: '@', replacement: path.resolve(__dirname, 'src') },
+      { find: '@config', replacement: path.resolve(__dirname, 'src/config') },
+    ],
   },
   test: {
     projects: [
