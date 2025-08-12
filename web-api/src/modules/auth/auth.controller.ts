@@ -4,6 +4,7 @@ import { LoginDto } from './dto/login.dto';
 import { RefreshAuth } from 'src/common/jwt/refresh-auth';
 import { RefreshTokenUseCase } from './use-cases/refresh-token-use-case';
 import { User } from 'src/common/decorators/user';
+import { Auth } from 'src/common/jwt/auth';
 
 @Controller('auth')
 export class AuthController {
@@ -22,5 +23,12 @@ export class AuthController {
   refreshTokens(@User() user: any) {
     return this.refreshTokenUseCase.execute(user);
   }
+
+  @Post('verify-credentials')
+  @Auth()
+  verifyCredentials() {
+    return true;
+  }
+
 
 } 
