@@ -1,7 +1,8 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext, type SetStateAction, type Dispatch } from 'react';
 
 interface AuthContextType {
   authenticated: boolean;
+  setAuthenticated: Dispatch<SetStateAction<boolean>>,
   loading: boolean;
 }
 
@@ -25,7 +26,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ authenticated, loading }}>
+    <AuthContext.Provider value={{ authenticated, setAuthenticated, loading }}>
       {children}
     </AuthContext.Provider>
   );

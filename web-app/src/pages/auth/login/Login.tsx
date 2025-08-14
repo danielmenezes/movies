@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '@config/api';
 import { useToast } from '@/context/ToastProvider';
+import { useAuth } from '@/context/AuthContext';
 
 const Login = () => {
   const { toastError, toastSuccess } = useToast();
@@ -13,17 +14,20 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const { setAuthenticated } = useAuth();
 
-  async function autenticar() {
+  async function authenticate() {
     setLoading(true);
     try {
-      const resp = await api.post('/auth/login', { email, password });
+      const resp = await api.post('auth/login', { email, password });
 
-      localStorage.setItem('access_token', resp.data.body.access_token);
-      localStorage.setItem('refresh_token', resp.data.body.refresh_token);
-
+      localStorage.setItem('access_token', resp.data?.body?.access_token);
+      localStorage.setItem('refresh_token', resp.data?.body?.refresh_token);
+      setAuthenticated(true);
       toastSuccess('Login realizado com sucesso!');
-      navigate('/home');
+  
+      navigate('/');
+
     } catch (err: any) {
 
       toastError(err.response?.data?.message);
@@ -72,7 +76,7 @@ const Login = () => {
               fullWidth
               sx={{ mt: 2 }}
               disabled={loading}
-              onClick={autenticar}
+              onClick={authenticate}
             >
               {loading ? (
                 <CircularProgress size={24} sx={{ color: 'white' }} />

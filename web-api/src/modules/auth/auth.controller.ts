@@ -18,7 +18,7 @@ export class AuthController {
     return this.loginUseCase.execute(loginDto);
   }
 
-  @Post('refresh')
+  @Post('refresh-token')
   @RefreshAuth()
   refreshTokens(@User() user: any) {
     return this.refreshTokenUseCase.execute(user);

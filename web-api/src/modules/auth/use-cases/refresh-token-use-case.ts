@@ -6,7 +6,6 @@ export class RefreshTokenUseCase {
   constructor(private readonly jwtService: JwtService) {}
 
   async execute(user: any) {
-    console.log(user)
     const payload = { email: user.email, sub: user.userId };
 
     const accessToken = this.jwtService.sign(payload, {
