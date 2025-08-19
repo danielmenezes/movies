@@ -19,7 +19,7 @@ api.interceptors.response.use(
     const originalRequest = error.config;
 
     const refreshToken = localStorage.getItem('refresh_token');
-    if (!refreshToken) {
+    if (!refreshToken && error.response?.status === 401) {
       logout();
       return Promise.reject(error);
     }
@@ -38,10 +38,9 @@ api.interceptors.response.use(
         logout();
         return Promise.reject(refreshError);
       }
-    } else {
-      logout();
-      return Promise.reject(error);
     }
+
+    return Promise.reject(error);
   }
 );
 

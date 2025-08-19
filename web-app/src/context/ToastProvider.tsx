@@ -26,7 +26,8 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
     setToasts((prev) => [...prev, { id, message, severity }]);
   };
 
-  const handleClose = (id: number) => {
+  const handleClose = (id: number, reason?: string) => {
+    if (reason === 'clickaway') return; // evita fechar por clique fora
     setToasts((prev) => prev.filter((toast) => toast.id !== id));
   };
 
@@ -40,15 +41,24 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
       }}
     >
       {children}
-      {toasts.map(({ id, message, severity }) => (
+
+      {toasts.map(({ id, message, severity }, index) => (
         <Snackbar
           key={id}
           open
           autoHideDuration={3000}
-          onClose={() => handleClose(id)}
+          onClose={(_, reason) => handleClose(id, reason)}
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          style={{
+            top: `${index * 55 + 16}px`,
+            right: 16,
+          }}
         >
-          <Alert onClose={() => handleClose(id)} severity={severity} sx={{ width: '100%' }}>
+          <Alert
+            onClose={() => handleClose(id)}
+            severity={severity}
+            sx={{ width: '100%' }}
+          >
             {message}
           </Alert>
         </Snackbar>
@@ -56,7 +66,6 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
     </ToastContext.Provider>
   );
 };
-
 
 export const useToast = (): ToastContextType => {
   const context = useContext(ToastContext);

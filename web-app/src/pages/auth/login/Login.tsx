@@ -23,13 +23,13 @@ const Login = () => {
 
       localStorage.setItem('access_token', resp.data?.body?.access_token);
       localStorage.setItem('refresh_token', resp.data?.body?.refresh_token);
+      localStorage.setItem('user_name', resp.data?.body?.user);
       setAuthenticated(true);
       toastSuccess('Login realizado com sucesso!');
   
       navigate('/');
 
     } catch (err: any) {
-
       toastError(err.response?.data?.message);
     } finally {
       setLoading(false);
