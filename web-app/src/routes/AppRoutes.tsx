@@ -6,7 +6,8 @@ import Movies from "@/pages/movies/Movies";
 import Series from "@/pages/series/Series";
 import Favorites from "@/pages/favorites/Favorites";
 import Layout from "@/pages/layout/Layout";
-import Profile from "@/pages/profile/Profile";
+import CadastroTitulo from "@/pages/cadastro-titulo/CadastroTitulo";
+import CadastroUsuario from "@/pages/cadastro-usuario/CadastroUsuario";
 
 export default function AppRoutes() {
   return (
@@ -21,7 +22,8 @@ export default function AppRoutes() {
           <Route path="/movies" element={<Movies />} />
           <Route path="/series" element={<Series />} />
           <Route path="/favorites" element={<Favorites />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/cadastro-usuario" element={<CadastroUsuario />} />
+          <Route path="/cadastro-titulo" element={<CadastroTitulo />} />
         </Route>
       </Route>
 

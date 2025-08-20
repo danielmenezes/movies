@@ -104,9 +104,15 @@ const Header = () => {
 
           <MenuItem
             sx={{ height: '30px' }}
-            onClick={() => navigate('/profile')}
+            onClick={() => navigate('/cadastro-titulo')}
           >
-            Perfil
+            Adicionar Título
+          </MenuItem>
+          <MenuItem
+            sx={{ height: '30px' }}
+            onClick={() => navigate('/cadastro-usuario')}
+          >
+            Adicionar Usuário
           </MenuItem>
           <MenuItem
             sx={{ height: '30px' }}
