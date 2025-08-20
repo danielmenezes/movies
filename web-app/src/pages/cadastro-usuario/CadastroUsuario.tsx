@@ -1,7 +1,7 @@
 import api from "@/config/api";
+import { useLoad } from "@/context/LoadingProvider";
 import { useToast } from "@/context/ToastProvider";
-import { Button, Card, CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-import { useState } from "react";
+import { Button, Card, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
@@ -15,10 +15,10 @@ interface User {
 
 const CadastroUsuario = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const { startLoading, stopLoading } = useLoad();
   const { toastError, toastSuccess } = useToast();
   
-  const { register, handleSubmit, reset, control, formState: { errors, isValid } } = useForm<User>({
+  const { register, handleSubmit, reset, control, formState: { errors } } = useForm<User>({
     mode: "onBlur",
     defaultValues: {
       email: "",
@@ -32,7 +32,7 @@ const CadastroUsuario = () => {
 
   const onSubmit = async (data: User) => {
     try {
-      setLoading(true);
+      startLoading('Salvando...');
       await api.post('users', data);
       reset();
       toastSuccess('Usuário cadastrado com sucesso!');
@@ -41,7 +41,7 @@ const CadastroUsuario = () => {
     } catch (err: any) {
       toastError(err.response?.data?.message);
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   };
 
@@ -138,12 +138,6 @@ const CadastroUsuario = () => {
           </Button>
         </form>
       </Card>
-
-      {loading && (
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-50">
-          <CircularProgress color="inherit" />
-        </div>
-      )}
     </div>
   );
 };

@@ -32,6 +32,7 @@ const Login = () => {
     } catch (err: any) {
       toastError(err.response?.data?.message);
     } finally {
+      setTimeout(() => {}, 1000);
       setLoading(false);
     }
   }
