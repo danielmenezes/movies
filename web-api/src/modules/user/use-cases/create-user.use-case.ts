@@ -10,7 +10,7 @@ export class CreateUserUseCase {
   ) {}
 
   async execute(user: CreateUserDto) {
-    try {
+  
       const { email, password } = user;
 
       const existingUser = await this.userRepository.getByEmail(email);
@@ -21,12 +21,5 @@ export class CreateUserUseCase {
       const hashedPassword = await bcrypt.hash(password, 10);
 
       return this.userRepository.create({ ...user, password: hashedPassword });
-    } catch (error: any) {
-      if (error instanceof HttpException) {
-        throw error;
-      }
-
-      throw new HttpException('Erro interno do servidor', HttpStatus.INTERNAL_SERVER_ERROR);
-    }
   }
 } 
