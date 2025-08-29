@@ -1,7 +1,9 @@
+import ImageUpload from "@/components/ImageUpload/ImageUpload";
 import api from "@/config/api";
 import { useLoad } from "@/context/LoadingProvider";
 import { useToast } from "@/context/ToastProvider";
 import { Button, Card, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
@@ -10,12 +12,14 @@ interface Title {
   description?: string;
   type: 'movie' | 'serie';
   releaseYear?: number;
+  image?: string;
 }
 
 const CadastroTitulo = () => {
   const navigate = useNavigate();
   const { startLoading, stopLoading } = useLoad();
   const { toastError, toastSuccess } = useToast();
+  const [ fileImg, setFileImg ] = useState<File | null>();
   
   const { register, handleSubmit, reset, control, formState: { errors } } = useForm<Title>({
     mode: "onBlur",
@@ -24,15 +28,29 @@ const CadastroTitulo = () => {
       description: "",
       type: 'movie',
       releaseYear: undefined,
+      image: ""
     },
   });
 
   const onSubmit = async (data: Title) => {
     try {
       startLoading('Salvando...');
+
+      let image = null;
+      const formData = new FormData();
+      if(fileImg) {
+        formData.append("file", fileImg);
+        image = await api.post("upload/image", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      }
+      
       const payload = {
         ...data,
         releaseYear: data.releaseYear ? Number(data.releaseYear) : undefined,
+        image: image?.data?.body?.fileName
       };
       await api.post('titles', payload);
       reset();
@@ -58,7 +76,7 @@ const CadastroTitulo = () => {
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
-            label="Titulo"
+            label="Título"
             variant="outlined"
             fullWidth
             margin="normal"
@@ -101,6 +119,12 @@ const CadastroTitulo = () => {
             {...register("releaseYear", { min: { value: 1800, message: "Ano inválido" }, max: { value: 2100, message: "Ano inválido" } })}
             error={!!errors.releaseYear}
             helperText={errors.releaseYear?.message}
+          />
+
+          <ImageUpload
+            onFileSelect={(file) => {
+              setFileImg(file);
+            }}
           />
 
           <Button

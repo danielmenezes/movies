@@ -19,6 +19,9 @@ export class TitleEntity extends Model<TitleEntity> {
   @AllowNull(false)
   @Column({ type: DataType.STRING(200) })
   title: string;
+  
+  @Column({ type: DataType.STRING(200) })
+  image: string;
 
   @AllowNull(true)
   @Column({ type: DataType.TEXT })

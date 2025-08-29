@@ -4,6 +4,9 @@ export class CreateTitleDto {
   @IsString()
   @IsNotEmpty()
   title: string;
+  
+  @IsString()
+  image?: string;
 
   @IsString()
   @IsOptional()
